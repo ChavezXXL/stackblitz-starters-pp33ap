@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Management</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <header>
+    <h1>Project Management</h1>
+    <div id="menu-icon">&#9776;</div>
+  </header>
+
+  <div id="side-menu">
+    <ul>
+      <li><button id="show-project-list-btn">Projects</button></li>
+      <li><button id="show-employee-list-btn">Employees</button></li>
+      <li><button id="show-work-log-btn">Work Log</button></li>
+      <li><button id="settings-btn">Settings</button></li>
+    </ul>
+    <div id="menu-bottom">
+      <button id="clear-data-btn" class="btn-danger">Clear All Data</button>
+      <button id="export-data-btn" class="btn-danger">Export Data</button>
+      <button id="import-data-btn" class="btn-danger">Import Data</button>
+      <input type="file" id="file-input" style="display:none;">
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div id="project-list" class="content">
+      <div class="header-row">
+        <h2>Projects</h2>
+        <button id="add-project-btn" class="btn-primary">Add Project</button>
+        <input type="text" id="project-search-input" placeholder="Search Projects">
+      </div>
+      <div id="projects" class="project-container"></div>
+    </div>
+
+    <div id="employee-list" class="content">
+      <div class="header-row">
+        <h2>Employees</h2>
+        <button id="add-employee-btn" class="btn-primary">Add Employee</button>
+        <input type="text" id="employee-search-input" placeholder="Search Employees">
+      </div>
+      <ul id="employees"></ul>
+    </div>
+
+    <div id="work-log" class="content">
+      <h2>Work Log</h2>
+      <input type="text" id="work-log-search-input" placeholder="Search Work Logs">
+      <div id="work-log-entries" class="work-log-container"></div>
+    </div>
+  </div>
+
+  <!-- Project Modal -->
+  <div id="project-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-project-modal" class="close">&times;</span>
+      <h2 id="project-modal-title">Add Project</h2>
+      <form id="project-form">
+        <label for="project-name">Project Name</label>
+        <input type="text" id="project-name" required>
+        <label for="purchase-order">Purchase Order</label>
+        <input type="text" id="purchase-order">
+        <label for="part-number">Part Number</label>
+        <input type="text" id="part-number">
+        <label for="job-number">Job Number</label>
+        <input type="text" id="job-number">
+        <label for="due-date">Due Date</label>
+        <input type="date" id="due-date">
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity">
+        <label for="notes">Notes</label>
+        <textarea id="notes"></textarea>
+        <label for="project-employees">Assigned Employees</label>
+        <select id="project-employees" multiple></select>
+        <label for="project-priority">Priority</label>
+        <select id="project-priority">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <button type="button" id="save-project-btn" class="btn-primary">Save Project</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Employee Modal -->
+  <div id="employee-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-employee-modal" class="close">&times;</span>
+      <h2>Add Employee</h2>
+      <form id="employee-form">
+        <label for="employee-name">Employee Name</label>
+        <input type="text" id="employee-name" required>
+        <button type="button" id="save-employee-btn" class="btn-primary">Save Employee</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Project Details Modal -->
+  <div id="project-details-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-project-details-modal" class="close">&times;</span>
+      <h2>Project Details</h2>
+      <div id="project-details-content"></div>
+      <button id="print-project-details-btn" class="btn-primary">Print</button>
+    </div>
+  </div>
+
+  <!-- Select Operation Modal -->
+  <div id="select-operation-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-select-operation-modal" class="close">&times;</span>
+      <h2>Select Operation</h2>
+      <select id="operation-select"></select>
+      <select id="operation-employees" multiple></select>
+      <button id="start-operation-btn" class="btn-primary">Start Operation</button>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-settings-modal" class="close">&times;</span>
+      <h2>Settings</h2>
+      <div>
+        <label for="new-operation-input">New Operation</label>
+        <input type="text" id="new-operation-input">
+        <button id="add-operation-btn" class="btn-primary">Add Operation</button>
+      </div>
+      <ul id="operations-list"></ul>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
