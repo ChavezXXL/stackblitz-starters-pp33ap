@@ -728,4 +728,38 @@ input[type="text"]::placeholder {
   font-size: 16px;
   margin: 0; /* Ensure no margins push the button away from the search bar */
 }
+/* Adjust the modal to handle keyboard visibility */
+.modal-content {
+  max-height: calc(100vh - 50px); /* Limit the modal height */
+  overflow-y: auto; /* Allow scrolling if content is too large */
+  box-sizing: border-box;
+}
+
+/* Ensure the modal is properly centered and adjusts to the keyboard */
+.modal {
+  position: fixed;
+  top: 10%; /* Start at 10% from the top */
+  transform: translate(-50%, 0); /* Remove vertical centering */
+}
+
+/* For small screens or when the keyboard is open */
+@media screen and (max-height: 768px) {
+  .modal {
+    top: 5%; /* Reduce the top margin */
+  }
+  .modal-content {
+    max-height: calc(100vh - 20px); /* Further reduce modal height */
+  }
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+textarea {
+  box-sizing: border-box;
+  font-size: 18px;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 15px; /* Add bottom margin to inputs for better spacing */
+}
 
