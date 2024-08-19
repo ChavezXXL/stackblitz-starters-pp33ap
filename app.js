@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const assignedEmployees = Array.from(projectEmployeesSelect.selectedOptions).map(option => option.value);
     const priority = projectPriorityInput.value;
 
-    if (projectName) {
+    if (projectName && purchaseOrder) {
       const projectId = generateUniqueId();
       const projectItem = document.createElement('div');
       projectItem.className = 'project-bubble';
@@ -676,15 +676,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Function to filter projects by Purchase Order (PO)
   function filterProjects() {
     const searchTerm = projectSearchInput.value.toLowerCase();
     const projectItems = document.querySelectorAll('.project-bubble');
     projectItems.forEach(item => {
-      const itemName = item.querySelector('h3').textContent.toLowerCase();
-      item.style.display = itemName.includes(searchTerm) ? 'block' : 'none';
+      const poText = item.querySelector('.project-details p:nth-child(1)').textContent.toLowerCase();
+      item.style.display = poText.includes(searchTerm) ? 'block' : 'none';
     });
   }
 
+  // Function to filter employees (optional, not related to PO)
   function filterEmployees() {
     const searchTerm = employeeSearchInput.value.toLowerCase();
     const employeeItems = document.querySelectorAll('#employees li');
@@ -694,16 +696,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Function to filter work logs by Purchase Order (PO)
   function filterWorkLogs() {
     const searchTerm = workLogSearchInput.value.toLowerCase();
     const workLogEntries = document.querySelectorAll('.work-log-entry');
     
     workLogEntries.forEach(entry => {
-      const poText = entry.querySelector('.po-number').textContent.toLowerCase();
+      const poText = entry.querySelector('p:nth-child(1)').textContent.toLowerCase();
       entry.style.display = poText.includes(searchTerm) ? 'block' : 'none';
     });
   }
-  
 
   function attachEventListenersToProjectItem(projectItem) {
     const projectName = projectItem.querySelector('h3').textContent;
@@ -959,24 +961,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalContent = modal.querySelector('.modal-content');
 
     // Adjust modal content height
-    modalContent.style.maxHeight = `${screenHeight - 50}px`;
+    modalContent.style.maxHeight = `${screenHeight - 150}px`;
   }
 
   // Detect when the keyboard is shown and adjust the modal
-  window.addEventListener('resize', () => {
-    if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
-      if (projectModal.style.display === 'block') {
-        adjustModalForKeyboard(projectModal);
-      } else if (employeeModal.style.display === 'block') {
-        adjustModalForKeyboard(employeeModal);
+  document.querySelectorAll('.modal-content input, .modal-content textarea').forEach(input => {
+    input.addEventListener('focus', (e) => {
+      const modal = e.target.closest('.modal');
+      if (modal) {
+        adjustModalForKeyboard(modal);
       }
-    }
+    });
   });
 
   // Restore original modal height when the keyboard is hidden
+  window.addEventListener('resize', () => {
+    document.querySelectorAll('.modal-content').forEach(modalContent => {
+      modalContent.style.maxHeight = '';
+    });
+  });
+
   window.addEventListener('orientationchange', () => {
-    projectModal.querySelector('.modal-content').style.maxHeight = '';
-    employeeModal.querySelector('.modal-content').style.maxHeight = '';
+    document.querySelectorAll('.modal-content').forEach(modalContent => {
+      modalContent.style.maxHeight = '';
+    });
   });
 
   printProjectDetailsBtn.addEventListener('click', printProjectDetails);
