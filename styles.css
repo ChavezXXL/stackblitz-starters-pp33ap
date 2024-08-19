@@ -762,4 +762,19 @@ textarea {
   border-radius: 5px;
   margin-bottom: 15px; /* Add bottom margin to inputs for better spacing */
 }
+/* Ensure the modal content adjusts when the keyboard is active */
+.modal-content {
+  position: relative;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px); /* Adjust modal content max height to be responsive */
+  transition: max-height 0.3s ease-in-out;
+}
 
+/* Ensure the input fields inside the modal are responsive */
+.modal-content input[type="text"],
+.modal-content input[type="date"],
+.modal-content input[type="number"],
+.modal-content textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
