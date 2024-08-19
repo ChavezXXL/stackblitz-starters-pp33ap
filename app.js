@@ -1,16 +1,3 @@
-// Register Service Worker
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(registration => {
-        console.log('SW registered: ', registration);
-      })
-      .catch(registrationError => {
-        console.log('SW registration failed: ', registrationError);
-      });
-  });
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   const projectList = document.getElementById('projects');
   const employeeList = document.getElementById('employees');
@@ -710,11 +697,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function filterWorkLogs() {
     const searchTerm = workLogSearchInput.value.toLowerCase();
     const workLogEntries = document.querySelectorAll('.work-log-entry');
+    
     workLogEntries.forEach(entry => {
-      const entryText = entry.textContent.toLowerCase();
-      entry.style.display = entryText.includes(searchTerm) ? 'block' : 'none';
+      const poText = entry.querySelector('.po-number').textContent.toLowerCase();
+      entry.style.display = poText.includes(searchTerm) ? 'block' : 'none';
     });
   }
+  
 
   function attachEventListenersToProjectItem(projectItem) {
     const projectName = projectItem.querySelector('h3').textContent;
@@ -837,10 +826,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const purchaseOrder = projectDetails.querySelector('p:nth-child(1)').textContent.split(': ')[1];
     const partNumber = projectDetails.querySelector('.project-details p:nth-child(2)').textContent.split(': ')[1];
     const jobNumber = projectDetails.querySelector('.project-details p:nth-child(3)').textContent.split(': ')[1];
-    const dueDate = projectDetails.querySelector('.project-details p:nth-child(4)').textContent.split(': ')[1];
-    const quantity = projectDetails.querySelector('.project-details p:nth-child(5)').textContent.split(': ')[1];
-    const notes = projectDetails.querySelector('.project-details p:nth-child(6)').textContent.split(': ')[1];
-    const assignedEmployees = projectDetails.querySelector('.project-details p:nth-child(7)').textContent.split(': ')[1];
+    const dueDate = projectDetails.querySelector('p:nth-child(4)').textContent.split(': ')[1];
+    const quantity = projectDetails.querySelector('p:nth-child(5)').textContent.split(': ')[1];
+    const notes = projectDetails.querySelector('p:nth-child(6)').textContent.split(': ')[1];
+    const assignedEmployees = projectDetails.querySelector('p:nth-child(7)').textContent.split(': ')[1];
     const priority = projectDetails.querySelector('.priority').textContent.toLowerCase();
     const status = projectDetails.querySelector('.status').textContent;
 
@@ -866,10 +855,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const purchaseOrder = projectDetails.querySelector('p:nth-child(1)').textContent.split(': ')[1];
     const partNumber = projectDetails.querySelector('.project-details p:nth-child(2)').textContent.split(': ')[1];
     const jobNumber = projectDetails.querySelector('.project-details p:nth-child(3)').textContent.split(': ')[1];
-    const dueDate = projectDetails.querySelector('.project-details p:nth-child(4)').textContent.split(': ')[1];
-    const quantity = projectDetails.querySelector('.project-details p:nth-child(5)').textContent.split(': ')[1];
-    const notes = projectDetails.querySelector('.project-details p:nth-child(6)').textContent.split(': ')[1];
-    const assignedEmployees = projectDetails.querySelector('.project-details p:nth-child(7)').textContent.split(': ')[1];
+    const dueDate = projectDetails.querySelector('p:nth-child(4)').textContent.split(': ')[1];
+    const quantity = projectDetails.querySelector('p:nth-child(5)').textContent.split(': ')[1];
+    const notes = projectDetails.querySelector('p:nth-child(6)').textContent.split(': ')[1];
+    const assignedEmployees = projectDetails.querySelector('p:nth-child(7)').textContent.split(': ')[1];
     const priority = projectDetails.querySelector('.priority').textContent.toLowerCase();
     const status = projectDetails.querySelector('.status').textContent;
 
@@ -903,7 +892,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           </style>
         </head>
-        <body>
+        <body> 
           ${printContents}
         </body>
       </html>
@@ -963,6 +952,32 @@ document.addEventListener('DOMContentLoaded', () => {
       reader.readAsText(file);
     }
   }
+
+  // Function to adjust modal position when the keyboard is active
+  function adjustModalForKeyboard(modal) {
+    const screenHeight = window.innerHeight;
+    const modalContent = modal.querySelector('.modal-content');
+
+    // Adjust modal content height
+    modalContent.style.maxHeight = `${screenHeight - 50}px`;
+  }
+
+  // Detect when the keyboard is shown and adjust the modal
+  window.addEventListener('resize', () => {
+    if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+      if (projectModal.style.display === 'block') {
+        adjustModalForKeyboard(projectModal);
+      } else if (employeeModal.style.display === 'block') {
+        adjustModalForKeyboard(employeeModal);
+      }
+    }
+  });
+
+  // Restore original modal height when the keyboard is hidden
+  window.addEventListener('orientationchange', () => {
+    projectModal.querySelector('.modal-content').style.maxHeight = '';
+    employeeModal.querySelector('.modal-content').style.maxHeight = '';
+  });
 
   printProjectDetailsBtn.addEventListener('click', printProjectDetails);
   clearDataBtn.addEventListener('click', clearAllData);
