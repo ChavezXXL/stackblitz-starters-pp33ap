@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project Management</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="manifest" href="manifest.json">
 </head>
 <body>
   <header>
@@ -32,8 +31,10 @@
     <div id="project-list" class="content">
       <div class="header-row">
         <h2>Projects</h2>
-        <button id="add-project-btn" class="btn-primary">Add Project</button>
-        <input type="text" id="project-search-input" placeholder="Search Projects">
+        <div class="actions-container">
+          <button id="add-project-btn" class="btn-primary">Add Project</button>
+          <input type="text" id="project-search-input" placeholder="Search Projects">
+        </div>
       </div>
       <div id="projects" class="project-container"></div>
     </div>
@@ -41,15 +42,19 @@
     <div id="employee-list" class="content">
       <div class="header-row">
         <h2>Employees</h2>
-        <button id="add-employee-btn" class="btn-primary">Add Employee</button>
-        <input type="text" id="employee-search-input" placeholder="Search Employees">
+        <div class="actions-container">
+          <button id="add-employee-btn" class="btn-primary">Add Employee</button>
+          <input type="text" id="employee-search-input" placeholder="Search Employees">
+        </div>
       </div>
       <ul id="employees"></ul>
     </div>
 
     <div id="work-log" class="content">
       <h2>Work Log</h2>
-      <input type="text" id="work-log-search-input" placeholder="Search Work Logs">
+      <div class="actions-container">
+        <input type="text" id="work-log-search-input" placeholder="Search by Purchase Order">
+      </div>
       <div id="work-log-entries" class="work-log-container"></div>
     </div>
   </div>
